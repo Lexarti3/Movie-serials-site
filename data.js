@@ -1,16 +1,17 @@
-const movies = [
+module.exports = [
   {
-    id: 1,
-    name: "Во все тяжкие",
-    overview: "История учителя химии, ставшего наркобароном.",
-    trailer: "https://www.youtube.com/embed/HhesaQXLuRY",
-    link: "https://www.kinopoisk.ru/series/404900/"
+    slug: "pohozhie-na-igru-prestolov",
+    title: "Сериалы похожие на Игру престолов",
+    description: "Подборка сериалов, похожих на Игру престолов. Фэнтези, интриги, битвы.",
+    h1: "Сериалы похожие на Игру престолов",
+    text: "Если вам понравилась «Игра престолов», обратите внимание на эти сериалы с эпичными сюжетами и борьбой за власть."
   },
   {
-    id: 2,
-    name: "Игра престолов",
-    overview: "Борьба за власть в мире Вестероса.",
-    trailer: "https://www.youtube.com/embed/KPLWWIOCOOQ",
-    link: "https://www.kinopoisk.ru/series/464963/"
+    slug: "luchshie-detektivnye-serialy",
+    title: "Лучшие детективные сериалы",
+    description: "Топ лучших детективных сериалов всех лет.",
+    h1: "Лучшие детективные сериалы",
+    text: "Детективные сериалы с напряжённым сюжетом, расследованиями и неожиданными развязками."
   }
 ];
+

@@ -1,57 +1,39 @@
-import fs from "fs";
-import fetch from "node-fetch";
-import { API_KEY, PAGES } from "./config.js";
+const fs = require("fs");
+const path = require("path");
 
-const TEMPLATE = fs.readFileSync("./template.html", "utf8");
-
-const intro = [
-  name => `Сериал «${name}» — один из самых обсуждаемых проектов последних лет.`,
-  name => `«${name}» часто рекомендуют тем, кто не знает, что посмотреть.`,
-  name => `Если вы ищете сериал с интересным сюжетом, «${name}» — достойный выбор.`
+const movies = [
+  {
+    slug: "breaking-bad",
+    title: "Во все тяжкие",
+    description: "История учителя химии, ставшего наркобароном."
+  },
+  {
+    slug: "game-of-thrones",
+    title: "Игра престолов",
+    description: "Борьба за власть в мире Вестероса."
+  }
 ];
 
-function rand(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
+const siteDir = path.join(__dirname, "site");
+
+if (!fs.existsSync(siteDir)) {
+  fs.mkdirSync(siteDir);
 }
 
-function buildPage(show, similarHTML) {
-  return TEMPLATE
-    .replace("{{TITLE}}", `Сериал ${show.name} — описание, сюжет, где смотреть`)
-    .replace("{{DESCRIPTION}}", `Описание сериала ${show.name}, сюжет и где смотреть легально.`)
-    .replace("{{H1}}", `Сериал ${show.name}`)
-    .replace("{{TEXT}}", rand(intro)(show.name) + " " + show.overview)
-    .replace("{{PARTNER}}", `https://partner-link.ru/?serial=${show.id}`)
-    .replace("{{SIMILAR}}", similarHTML);
-}
+movies.forEach(movie => {
+  const html = `
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>${movie.title} — смотреть онлайн</title>
+  <meta name="description" content="${movie.description}">
+</head>
+<body>
+  <h1>${movie.title}</h1>
+  <p>${movie.description}</p>
+  <a href="/">На главную</a>
+</body>
+</html>
+  `.t
 
-(async () => {
-  fs.mkdirSync("../site/serial", { recursive: true });
-  fs.mkdirSync("../site/similar", { recursive: true });
-
-  for (let page = 1; page <= PAGES; page++) {
-    const res = await fetch(
-      `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&language=ru-RU&page=${page}`
-    );
-    const data = await res.json();
-
-    for (const show of data.results) {
-      // похожие
-      const simRes = await fetch(
-        `https://api.themoviedb.org/3/tv/${show.id}/similar?api_key=${API_KEY}&language=ru-RU`
-      );
-      const simData = await simRes.json();
-
-      const similarHTML = simData.results
-        .slice(0, 5)
-        .map(s => `<li><a href="/serial/${s.id}.html">${s.name}</a></li>`)
-        .join("");
-
-      const html = buildPage(show, similarHTML);
-
-      fs.writeFileSync(`../site/serial/${show.id}.html`, html);
-      fs.writeFileSync(`../site/similar/${show.id}.html`, html);
-    }
-  }
-
-  console.log("✅ Генерация завершена");
-})();

@@ -1,12 +1,23 @@
 const fs = require("fs");
 
-const baseUrl = "https://lexarti3.github.io/Movie-serials-site/site";
+// базовый URL сайта (БЕЗ /site)
+const baseUrl = "https://lexarti3.github.io/Movie-serials-site";
 
-const files = fs.readdirSync("site").filter(f => f.endsWith(".html"));
+// читаем html-файлы из корня, исключая index.html
+const files = fs
+  .readdirSync(".")
+  .filter(f => f.endsWith(".html") && f !== "index.html");
 
 let sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n`;
 sitemap += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
+// главная страница
+sitemap += `
+  <url>
+    <loc>${baseUrl}/</loc>
+  </url>`;
+
+// SEO-страницы
 files.forEach(file => {
   sitemap += `
   <url>
@@ -14,10 +25,12 @@ files.forEach(file => {
   </url>`;
 });
 
-sitemap += "\n</urlset>";
+sitemap += `\n</urlset>`;
 
-fs.writeFileSync("site/sitemap.xml", sitemap);
+// сохраняем sitemap В КОРЕНЬ
+fs.writeFileSync("sitemap.xml", sitemap, "utf8");
 
-console.log("sitemap generated");
+console.log("sitemap generated in ROOT");
+
 
 

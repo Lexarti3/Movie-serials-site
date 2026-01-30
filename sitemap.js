@@ -1,25 +1,23 @@
 const fs = require("fs");
 
-const pages = [
-  "breaking-bad.html",
-  "game-of-thrones.html"
-];
+const baseUrl = "https://lexarti3.github.io/Movie-serials-site/site";
 
-const baseUrl = "https://lexarti3.github.io/Movie-serials-site";
+const files = fs.readdirSync("site").filter(f => f.endsWith(".html"));
 
-let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
-xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+let sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+sitemap += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
-pages.forEach(p => {
-  xml += `
+files.forEach(file => {
+  sitemap += `
   <url>
-    <loc>${baseUrl}/site/${p}</loc>
+    <loc>${baseUrl}/${file}</loc>
   </url>`;
 });
 
-xml += `\n</urlset>`;
+sitemap += "\n</urlset>";
 
-fs.writeFileSync("site/sitemap.xml", xml);
+fs.writeFileSync("site/sitemap.xml", sitemap);
 
-console.log("✅ sitemap.xml создан");
+console.log("sitemap generated");
+
 

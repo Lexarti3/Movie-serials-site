@@ -21,7 +21,6 @@ jobs:
 
       - name: Generate pages
         run: |
-          cd generator
           node generate.js
           node sitemap.js
 
@@ -29,6 +28,6 @@ jobs:
         run: |
           git config --global user.name "seo-bot"
           git config --global user.email "bot@github.com"
-          git add site
+          git add .
           git commit -m "auto generate seo" || echo "no changes"
           git push

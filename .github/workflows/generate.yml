@@ -11,26 +11,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Generate pages
+      - name: Generate SEO pages and sitemap
         run: |
           node generate.js
           node sitemap.js
 
-      - name: Commit generated files
+      - name: Commit generated files to root
         run: |
           git config user.name "seo-bot"
           git config user.email "bot@github.com"
           git add .
-          git commit -m "auto generate seo" || echo "no changes"
+          git commit -m "auto generate seo pages and sitemap" || echo "no changes"
           git push
+
 
 
 

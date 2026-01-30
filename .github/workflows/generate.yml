@@ -3,6 +3,9 @@ name: Generate SEO Pages
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -10,6 +13,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+        with:
+          persist-credentials: true
 
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -23,10 +28,11 @@ jobs:
 
       - name: Commit site
         run: |
-          git config --global user.name "seo-bot"
-          git config --global user.email "bot@github.com"
+          git config user.name "seo-bot"
+          git config user.email "bot@github.com"
           git add .
           git commit -m "auto generate seo" || echo "no changes"
           git push
+
 
 

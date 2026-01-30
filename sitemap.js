@@ -1,19 +1,25 @@
-import fs from "fs";
-import { SITE_URL } from "./config.js";
+const fs = require("fs");
 
-const files = fs.readdirSync("../site/serial");
+const pages = [
+  "breaking-bad.html",
+  "game-of-thrones.html"
+];
 
-let xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+const baseUrl = "https://lexarti3.github.io/Movie-serials-site";
 
-for (const file of files) {
+let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+
+pages.forEach(p => {
   xml += `
   <url>
-    <loc>${SITE_URL}/serial/${file}</loc>
+    <loc>${baseUrl}/site/${p}</loc>
   </url>`;
-}
+});
 
-xml += "\n</urlset>";
+xml += `\n</urlset>`;
 
-fs.writeFileSync("../site/sitemap.xml", xml);
+fs.writeFileSync("site/sitemap.xml", xml);
+
 console.log("✅ sitemap.xml создан");
+

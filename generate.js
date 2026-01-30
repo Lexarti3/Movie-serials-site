@@ -1,39 +1,43 @@
 const fs = require("fs");
-const path = require("path");
 
-const movies = [
+const pages = [
   {
-    slug: "breaking-bad",
-    title: "Во все тяжкие",
-    description: "История учителя химии, ставшего наркобароном."
+    slug: "luchshie-serialy-2024",
+    title: "Лучшие сериалы 2024 года смотреть онлайн",
+    description: "Подборка лучших сериалов 2024 года. Новинки, рейтинги, обзоры.",
+    text: "В 2024 году вышло много интересных сериалов разных жанров — от драм до фантастики."
   },
   {
-    slug: "game-of-thrones",
-    title: "Игра престолов",
-    description: "Борьба за власть в мире Вестероса."
+    slug: "luchshie-filmy-2023",
+    title: "Лучшие фильмы 2023 года смотреть онлайн",
+    description: "Список лучших фильмов 2023 года. Популярные новинки кино.",
+    text: "Фильмы 2023 года порадовали зрителей качественными сюжетами и актёрской игрой."
   }
 ];
 
-const siteDir = path.join(__dirname, "site");
-
-if (!fs.existsSync(siteDir)) {
-  fs.mkdirSync(siteDir);
+if (!fs.existsSync("site")) {
+  fs.mkdirSync("site");
 }
 
-movies.forEach(movie => {
+pages.forEach(page => {
   const html = `
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>${movie.title} — смотреть онлайн</title>
-  <meta name="description" content="${movie.description}">
+  <title>${page.title}</title>
+  <meta name="description" content="${page.description}">
 </head>
 <body>
-  <h1>${movie.title}</h1>
-  <p>${movie.description}</p>
-  <a href="/">На главную</a>
+  <h1>${page.title}</h1>
+  <p>${page.text}</p>
 </body>
 </html>
-  `.t
+  `;
+
+  fs.writeFileSync(`site/${page.slug}.html`, html);
+});
+
+console.log("SEO pages generated");
+
 

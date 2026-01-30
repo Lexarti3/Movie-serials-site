@@ -16,9 +16,6 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install deps
-        run: npm install node-fetch
-
       - name: Generate pages
         run: |
           node generate.js
@@ -31,4 +28,5 @@ jobs:
           git add .
           git commit -m "auto generate seo" || echo "no changes"
           git push
+
 

@@ -15,13 +15,9 @@ const pages = [
   }
 ];
 
-if (!fs.existsSync("site")) {
-  fs.mkdirSync("site");
-}
-
+// 👉 НИЧЕГО не создаём, пишем сразу в корень
 pages.forEach(page => {
-  const html = `
-<!DOCTYPE html>
+  const html = `<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
@@ -31,13 +27,14 @@ pages.forEach(page => {
 <body>
   <h1>${page.title}</h1>
   <p>${page.text}</p>
+  <p><a href="/">← На главную</a></p>
 </body>
-</html>
-  `;
+</html>`;
 
-  fs.writeFileSync(`site/${page.slug}.html`, html);
+  fs.writeFileSync(`${page.slug}.html`, html, "utf8");
 });
 
-console.log("SEO pages generated");
+console.log("SEO pages generated in ROOT");
+
 
 
